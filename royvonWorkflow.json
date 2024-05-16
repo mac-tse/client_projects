@@ -1,0 +1,192 @@
+{
+    "description": "Once an incident KObject is created -> based off location name will select the proper Manager for that location -> create a new conversation to which they are assigned -> post a note in that conversation -> add Tags",
+    "name": "royvon-wf-for-incidents",
+    "steps": [
+        {
+            "transitions": [
+                {
+                    "target": "WDX7w6zP",
+                    "condition": {
+                        "op": "true",
+                        "values": [
+                            true
+                        ]
+                    }
+                }
+            ],
+            "errorCases": [],
+            "id": "nhYbM2yl",
+            "action": "kustomer.customer.find",
+            "params": {
+                "identifier": "/#steps.1.customer"
+            },
+            "appVersion": "kustomer-^1.9.9"
+        },
+        {
+            "transitions": [
+                {
+                    "target": "r5F3I9lG",
+                    "condition": {
+                        "op": "true",
+                        "values": [
+                            true
+                        ]
+                    }
+                }
+            ],
+            "errorCases": [],
+            "id": "j3UeVyxL",
+            "action": "kustomer.note.create",
+            "params": {
+                "conversation": "/#steps.WDX7w6zP.id",
+                "body": "Dear manager please view this incident and take appropriate action in informing the upcoming team on a actions needed for the care of this dog. Please close this note conversation once investigated."
+            },
+            "appVersion": "kustomer-^1.9.9"
+        },
+        {
+            "transitions": [],
+            "errorCases": [],
+            "id": "r5F3I9lG",
+            "action": "kustomer.conversation.update",
+            "params": {
+                "id": "/#steps.WDX7w6zP.id",
+                "assignedUsers": []
+            },
+            "appVersion": "kustomer-^1.9.9"
+        },
+        {
+            "transitions": [
+                {
+                    "target": "PdaupPyE",
+                    "condition": {
+                        "op": "true",
+                        "values": [
+                            true
+                        ]
+                    }
+                }
+            ],
+            "errorCases": [],
+            "id": "V1ZQadrd",
+            "action": "kustomer.note.create",
+            "params": {
+                "conversation": "/#steps.WDX7w6zP.id",
+                "body": "Dear manager please view this incident and take appropriate action in informing the upcoming team on a actions needed for the care of this dog. Please close this note conversation once investigated."
+            },
+            "appVersion": "kustomer-^1.9.9"
+        },
+        {
+            "transitions": [],
+            "errorCases": [],
+            "id": "PdaupPyE",
+            "action": "kustomer.conversation.update",
+            "params": {
+                "id": "/#steps.WDX7w6zP.id",
+                "assignedUsers": []
+            },
+            "appVersion": "kustomer-^1.9.9"
+        },
+        {
+            "transitions": [
+                {
+                    "target": "X7oXBGqX",
+                    "condition": {
+                        "op": "true",
+                        "values": [
+                            true
+                        ]
+                    }
+                }
+            ],
+            "errorCases": [],
+            "id": "ApJ2fXRD",
+            "action": "kustomer.note.create",
+            "params": {
+                "conversation": "/#steps.WDX7w6zP.id",
+                "body": "Dear manager please view this incident and take appropriate action in informing the upcoming team on a actions needed for the care of this dog. Please close this note conversation once investigated."
+            },
+            "appVersion": "kustomer-^1.9.9"
+        },
+        {
+            "transitions": [],
+            "errorCases": [],
+            "id": "X7oXBGqX",
+            "action": "kustomer.conversation.update",
+            "params": {
+                "id": "/#steps.WDX7w6zP.id",
+                "assignedUsers": []
+            },
+            "appVersion": "kustomer-^1.9.9"
+        },
+        {
+            "transitions": [
+                {
+                    "target": "j3UeVyxL",
+                    "condition": {
+                        "op": "eq",
+                        "values": [
+                            "/#steps.1.custom.locationNameStr",
+                            "Royvon Esher"
+                        ]
+                    },
+                    "meta": {
+                        "name": "check location Esher"
+                    }
+                },
+                {
+                    "target": "V1ZQadrd",
+                    "condition": {
+                        "op": "eq",
+                        "values": [
+                            "/#steps.1.custom.locationNameStr",
+                            "Royvon Merthyr"
+                        ]
+                    },
+                    "meta": {
+                        "name": "check location Merthyr"
+                    }
+                },
+                {
+                    "target": "ApJ2fXRD",
+                    "condition": {
+                        "op": "eq",
+                        "values": [
+                            "/#steps.1.custom.locationNameStr",
+                            "Royvon Playhouse"
+                        ]
+                    },
+                    "meta": {
+                        "name": "check location Playhouse"
+                    }
+                }
+            ],
+            "errorCases": [],
+            "id": "WDX7w6zP",
+            "action": "kustomer.conversation.create",
+            "params": {
+                "customer": "/#steps.nhYbM2yl.id",
+                "name": "Note for {{steps.1.title}}"
+            },
+            "appVersion": "kustomer-^1.9.9"
+        }
+    ],
+    "trigger": {
+        "transitions": [
+            {
+                "target": "nhYbM2yl",
+                "condition": {
+                    "op": "true",
+                    "values": [
+                        true
+                    ]
+                }
+            }
+        ],
+        "meta": {
+            "template": "kustomer.kobject.__name__.create"
+        },
+        "eventName": "kustomer.kobject.incident.create",
+        "id": "1",
+        "appVersion": "kustomer-^1.9.9"
+    }
+}
